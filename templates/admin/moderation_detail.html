@@ -1,0 +1,43 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>{{ title }}</h1>
+
+<div id="content-main">
+    <div class="module" id="changelist">
+        <div class="results">
+            <table id="result_list">
+                <thead>
+                    <tr>
+                        <th scope="col" class="sortable column-establishment">
+                            <div class="text"><a>Заведение</a></div>
+                        </th>
+                        <th scope="col" class="sortable column-raw_text">
+                            <div class="text"><a>Текст акции (начало)</a></div>
+                        </th>
+                        <th scope="col" class="sortable column-created_at">
+                            <div class="text"><a>Дата сбора</a></div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for promo in promotions %}
+                    <tr class="{% cycle 'row1' 'row2' %}">
+                        <th class="field-establishment">
+                            <a href="{% url 'admin:moderation_promo_edit' promo.id %}">{{ promo.establishment.name }}</a>
+                        </th>
+                        <td>{{ promo.raw_text|truncatechars:100 }}</td>
+                        <td>{{ promo.created_at|date:"d.m.Y H:i" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">В этой категории нет акций, ожидающих модерации.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    <a href="{% url 'admin:moderation' %}"> &larr; Назад к списку категорий</a>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .promo-media img, .promo-media video { max-width: 200px; max-height: 200px; margin: 5px; border: 1px solid #ccc; }
+    textarea { width: 100%; min-height: 150px; }
+</style>
+
+<h1>{{ title }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <div id="content-main">
+
+        <h2>Медиафайлы</h2>
+        <div class="promo-media">
+            {% for media in promo.media.all %}
+                {% if media.file_type == 'image' %}
+                    <img src="{{ MEDIA_URL }}{{ media.file_path }}" alt="Фото акции">
+                {% else %}
+                    <video controls src="{{ MEDIA_URL }}{{ media.file_path }}"></video>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <br>
+
+        <h2>Тексты</h2>
+        <fieldset class="module aligned">
+            <div class="form-row">
+                <label>Сырой текст из Instagram:</label>
+                <div style="padding: 10px; background-color: #f5f5f5; border: 1px solid #ddd;">
+                    {{ promo.raw_text|linebreaksbr }}
+                </div>
+            </div>
+            <div class="form-row">
+                <label for="id_edited_text">Отредактированный текст акции:</label>
+                <textarea name="edited_text" id="id_edited_text">{{ promo.edited_text|default:promo.raw_text }}</textarea>
+            </div>
+            <div class="form-row">
+                <label for="id_conditions">Условия и дни проведения:</label>
+                <textarea name="conditions" id="id_conditions">{{ promo.conditions|default:'' }}</textarea>
+            </div>
+        </fieldset>
+
+        <div class="submit-row">
+            <input type="submit" value="Опубликовать" class="default">
+        </div>
+
+    </div>
+</form>
+<br>
+<a href="{% url 'admin:moderation_category' promo.establishment.subcategory.category.id %}"> &larr; Назад к списку акций</a>
+{% endblock %}

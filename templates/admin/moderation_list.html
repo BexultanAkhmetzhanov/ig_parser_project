@@ -1,0 +1,44 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>Список категорий для модерации</h1>
+<p>Выберите категорию, чтобы просмотреть акции, ожидающие проверки.</p>
+
+<div id="content-main">
+    <div class="module" id="changelist">
+        <div class="results">
+            <table id="result_list">
+                <thead>
+                    <tr>
+                        <th scope="col" class="sortable column-name">
+                            <div class="text"><a>Категория</a></div>
+                        </th>
+                        <th scope="col" class="sortable column-new_promotions_count">
+                            <div class="text"><a>Новые акции</a></div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in categories %}
+                    <tr class="{% cycle 'row1' 'row2' %}">
+                        <th class="field-name">
+                            <a href="{% url 'admin:moderation_category' category.id %}">{{ category.name }}</a>
+                        </th>
+                        <td>
+                            {% if category.new_promotions_count > 0 %}
+                                <strong style="font-size: 1.1em; color: #c112a0;">{{ category.new_promotions_count }}</strong>
+                            {% else %}
+                                {{ category.new_promotions_count }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2">В базе данных нет категорий.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
