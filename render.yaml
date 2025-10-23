@@ -19,7 +19,7 @@ services:
         value: False
 
   - type: pserv # База данных PostgreSQL
-    name: promo-db
-    databaseName: promo_db
-    user: promo_user
-    plan: free # Выбери тариф
+    name: promo-db      # Имя самого сервиса базы данных на Render
+    plan: free          # Тарифный план (free или платный)
+    databaseName: promo_db # Имя базы данных ВНУТРИ PostgreSQL
+    user: promo_user   # Имя пользователя ВНУТРИ PostgreSQL
