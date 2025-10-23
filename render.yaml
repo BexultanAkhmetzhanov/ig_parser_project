@@ -1,25 +1,25 @@
 services:
   - type: web
-    name: promo-backend # Имя сервиса
+    name: promo-backend # Имя веб-сервиса
     env: python
-    # Указываем скрипт сборки
     buildCommand: "./build.sh"
-    # Команда запуска с Gunicorn
     startCommand: "gunicorn ig_parser_project.wsgi:application"
     envVars:
       - key: SECRET_KEY
         generateValue: true
       - key: DATABASE_URL
         fromDatabase:
-          name: promo-db # Должно совпадать с именем сервиса БД ниже
+          name: promo-db # Имя СЕРВИСА базы данных (должно совпадать ниже)
           property: connectionString
       - key: PYTHON_VERSION
         value: 3.10 # Укажи свою версию Python
       - key: DEBUG
         value: False
 
-  - type: pserv         # Тип сервиса: PostgreSQL
-    name: promo-db      # Имя самого сервиса базы данных на Render
+  - type: pserv         # Тип: PostgreSQL database service
+    name: promo-db      # Имя самого СЕРВИСА базы данных на Render
     plan: free          # Тарифный план
-    databaseName: promo_db # Имя самой базы данных внутри Postgres
-    databaseUser: promo_user   # <<< ИСПРАВЛЕНИЕ ЗДЕСЬ: Правильный ключ для пользователя
+    # --- ИСПРАВЛЕНИЯ ЗДЕСЬ, СОГЛАСНО ДОКУМЕНТАЦИИ ---
+    databaseName: promo_db # Имя БАЗЫ ДАННЫХ внутри Postgres
+    user: promo_user   # Имя ПОЛЬЗОВАТЕЛЯ внутри Postgres
+    # postgresqlVersion: 15 # Можно раскомментировать и указать версию, если нужно
