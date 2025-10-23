@@ -18,8 +18,8 @@ services:
       - key: DEBUG # Установим в False
         value: False
 
-  - type: pserv # База данных PostgreSQL
-    name: promo-db      # Имя самого сервиса базы данных на Render
-    plan: free          # Тарифный план (free или платный)
-    databaseName: promo_db # Имя базы данных ВНУТРИ PostgreSQL
-    user: promo_user   # Имя пользователя ВНУТРИ PostgreSQL
+  - type: pserv         # Тип сервиса: PostgreSQL
+    name: promo-db      # Имя сервиса на Render (как он будет виден в дашборде)
+    plan: free          # Тарифный план
+    databaseName: promo_db # Имя самой базы данных внутри Postgres
+    user: promo_user   # Имя пользователя внутри Postgres
